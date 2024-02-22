@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /sicredi/
+RewriteRule ^index\\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /sicredi/index.php [L]
