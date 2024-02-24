@@ -1,24 +1,7 @@
 <?php
 
-use Controllers\Request;
-use Controllers\Router;
+use Controller\Router;
 
-$router = new Router(new Request);
+require('controllers/RouterController.php');
 
-$router->get('/', function($request) {
-    return <<<HTML
-  <h1>HOME</h1>
-HTML;
-});
-
-
-$router->get('/profile', function($request) {
-    return <<<HTML
-  <h1>Profile</h1>
-HTML;
-});
-
-$router->post('/data', function($request) {
-
-    return json_encode($request->getBody());
-});
+new Router();
