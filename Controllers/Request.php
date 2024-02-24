@@ -1,4 +1,6 @@
 <?php
+namespace Controllers;
+
 include_once 'IRequest.php';
 
 class Request implements IRequest

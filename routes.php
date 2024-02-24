@@ -1,13 +1,13 @@
 <?php
 
-include_once 'Request.php';
-include_once 'Router.php';
+use Controllers\Request;
+use Controllers\Router;
 
 $router = new Router(new Request);
 
-$router->get('/', function() {
+$router->get('/', function($request) {
     return <<<HTML
-  <h1>Hello world</h1>
+  <h1>HOME</h1>
 HTML;
 });
 
