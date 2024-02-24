@@ -4,6 +4,10 @@ namespace Controller;
 
 class Router{
 
+    protected $excepts = [
+        'CurlController'
+    ];
+
     public function __construct()
     {
         $uri = parse_url($_SERVER["REQUEST_URI"])['path'];
@@ -14,9 +18,11 @@ class Router{
     private function routeToController(string $uri = "document")
     {
         $uri = ucwords($uri);
-        if (file_exists(__DIR__."/{$uri}Controller.php")){
+        if (file_exists(__DIR__."/{$uri}Controller.php") || array_key_exists("{$uri}Controller.php", $this->excepts)){
             require "{$uri}Controller.php";
-            return die;
+            $classe = "{$uri}Controller";
+            return new $classe();
+
         }
 
         return not_found();

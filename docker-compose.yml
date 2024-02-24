@@ -11,6 +11,9 @@ services:
       dockerfile: Dockerfile
       args:
         WWWGROUP: '${WWWGROUP}'
+        TOKEN_CERTISIGN: '${TOKEN_CERTISIGN}'
+        URL_CERTISIGN: '${URL_CERTISIGN}'
+
     container_name: sicredi
     restart: always
     networks:
@@ -21,6 +24,10 @@ services:
           - mysql
     volumes:
         - .:/var/www/html
+    environment:
+      TOKEN_CERTISIGN: '${TOKEN_CERTISIGN}'
+      URL_CERTISIGN: '${URL_CERTISIGN}'
+
 
 networks:
   compose-bridge:
