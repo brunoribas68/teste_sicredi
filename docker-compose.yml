@@ -13,6 +13,7 @@ services:
         WWWGROUP: '${WWWGROUP}'
         TOKEN_CERTISIGN: '${TOKEN_CERTISIGN}'
         URL_CERTISIGN: '${URL_CERTISIGN}'
+        HOST: '${HOST}'
 
     container_name: sicredi
     restart: always
@@ -27,6 +28,7 @@ services:
     environment:
       TOKEN_CERTISIGN: '${TOKEN_CERTISIGN}'
       URL_CERTISIGN: '${URL_CERTISIGN}'
+      HOST: '${HOST}'
 
 
 networks:

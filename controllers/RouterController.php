@@ -12,10 +12,10 @@ class Router{
     {
         $uri = parse_url($_SERVER["REQUEST_URI"])['path'];
         $uri = str_replace("/", "", $uri);
-        $this->routeToController($uri != "" ? $uri : "document");
+        $this->routeToController($uri != "" ? $uri : "index");
     }
 
-    private function routeToController(string $uri = "document")
+    private function routeToController(string $uri = "index")
     {
         $uri = ucwords($uri);
         if (file_exists(__DIR__."/{$uri}Controller.php") || array_key_exists("{$uri}Controller.php", $this->excepts)){
