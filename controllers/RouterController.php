@@ -7,7 +7,8 @@ use DocumentController;
 class Router{
 
     protected $excepts = [
-        'CurlController'
+        'CurlController',
+        'SignController'
     ];
 
     public function __construct()
