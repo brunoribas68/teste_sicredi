@@ -1,3 +1,43 @@
+# Requisicao
+![requisicao imagem](storage/images/request.png "Requisicao via Postman")
+
+# Response
+
+```
+
+{
+    "id": 677123,
+    "chave": "8EAAB0EA0F22C170",
+    "signUrl": "https://sandbox.portaldeassinaturas.com.br/Assinatura/AssinarFrame/840444?chave=8EAAB0EA0F22C170&signer=257355",
+    "inProcessing": false,
+    "warnings": [],
+    "attendees": [
+        {
+            "signerId": id,
+            "name": "nome",
+            "email": "email",
+            "individualIdentificationCode": null,
+            "order": 2,
+            "action": "DIGITAL-SIGNATURE",
+            "signUrl": "url",
+        "batchSignUrl": ""
+        },
+        {
+            "signerId": id,
+            "name": "nome",
+            "email": "email",
+            "individualIdentificationCode": null,
+            "order": 3,
+            "action": "ELETRONIC-SIGNATURE",
+            "signUrl": "url",
+            "batchSignUrl": ""
+        }
+    ]
+}
+```
+
+### Problema a ser resolvido
+
 Boa tarde,
 
 Nesta última fase do processo seletivo, iremos testar diversas habilidades que são importantes para o desempenho dos trabalhos, no dia-a-dia de um Assessor de Desenvolvimento de Sistemas na Sicredi Centro-Sul MS/BA.
