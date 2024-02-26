@@ -1,5 +1,6 @@
 FROM php:apache
 RUN a2enmod rewrite
+RUN service apache2 restart
 ENV TOKEN_CERTISIGN ${TOKEN_CERTISIGN}
 ENV URL_CERTISIGN ${URL_CERTISIGN}
 ENV HOST ${HOST}

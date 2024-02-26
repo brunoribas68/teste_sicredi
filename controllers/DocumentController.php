@@ -7,22 +7,23 @@ class DocumentController{
     public function __construct()
     {
         $this->signUrl = getenv('URL_CERTISIGN');
-        if($this->isRequestedByFront()){
-            return $this->requestedByFront();
-        }
-        $this->uploadDocumentRequest();
+
+        return $this->requestedByFront();
+
     }
 
     public function createUploadRequest(string $filename): string
     {
-        $handle = fopen($filename, "r+");
-        $fsize = filesize($filename);
-        $contents = fread($handle, $fsize);
-        $byteArray = unpack("N*",$contents);
+        $pdfContent = file_get_contents($filename);
+
+        $pdfBytes = [];
+        for ($i = 0; $i < strlen($pdfContent); $i++) {
+            $pdfBytes[] = ord($pdfContent[$i]);
+        }
 
         $data = [
             "fileName" => $filename,
-            "bytes" => array_values($byteArray)
+            "bytes" => $pdfBytes
         ];
 
         return json_encode($data);
@@ -60,17 +61,17 @@ class DocumentController{
         return $curl->curlRequest($this->signUrl."/document/upload", $this->createUploadRequest($file));
     }
 
-    public function sendToSignRequest(array $uploadedDocument, array $signer, ?array$eletronicSigner)
+    public function sendToSignRequest(array $uploadedDocument, array $signer, ?array$eletronicSigner):string
     {
         $sendToSign = $this->createSendToSignRequest($uploadedDocument, $signer, $eletronicSigner);
 
         $curl = new \Controller\CurlController();
         $uploadedDocument = $curl->curlRequest($this->signUrl."/document/create", $sendToSign);
 
-        return $uploadedDocument;
+        return json_encode($uploadedDocument);
     }
 
-    public function requestedByFront()
+    public function requestedByFront(): string
     {
         $fileName = "/var/www/html/storage/uploads/";
         $fileName = $fileName . basename($_FILES["file"]["name"]);
@@ -79,23 +80,31 @@ class DocumentController{
             if (!file_exists($fileName)) {
                 move_uploaded_file($_FILES["file"]["tmp_name"], $fileName);
             }
+
             $uploadedDocument = $this->uploadDocumentRequest($fileName);
-            $signer = [[
-                "step"=> 2,
-                "title"=> "Signer",
-                "name"=> $_POST['firstName'],
-                "email"=> $_POST['firstEmail']
-            ]];
+            $signer = [
+                [
+                    "step"=> 2,
+                    "title"=> "Signer",
+                    "name"=> $_POST['firstName'],
+                    "email"=> $_POST['firstEmail']
+                ]
+            ];
 
-            $eletronicSigner = [[
-                "step"=> 3,
-                "title"=> "Signer",
-                "name"=> $_POST['secondName'],
-                "email"=> $_POST['secondEmail']
-            ]];
+            $eletronicSigner = [
+                [
+                    "step"=> 3,
+                    "title"=> "Signer",
+                    "name"=> $_POST['secondName'],
+                    "email"=> $_POST['secondEmail']
+                ]
+            ];
 
-            dd($this->sendToSignRequest($uploadedDocument, $signer, $eletronicSigner));
+            echo $this->sendToSignRequest($uploadedDocument, $signer, $eletronicSigner);
+            die;
         }
+
+        return 'Arquivo nao valido!';
 
     }
 
@@ -106,8 +115,6 @@ class DocumentController{
     public function fileValidation($filename)
     {
         $imageFileType = strtolower(pathinfo($filename,PATHINFO_EXTENSION));
-
-
 
         if ($_FILES["file"]["size"] > 500000) {
             echo "Sorry, your file is too large.";
@@ -122,4 +129,6 @@ class DocumentController{
 
         return true;
     }
+
+
 }

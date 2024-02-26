@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use DocumentController;
+
 class Router{
 
     protected $excepts = [
